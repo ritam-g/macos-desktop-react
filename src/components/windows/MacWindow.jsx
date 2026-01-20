@@ -4,7 +4,14 @@ import "./Window.scss"
 function MacWindow({children}) {
   return (
     <>
-    <Rnd>
+    <Rnd
+            default={{
+                x: 100,
+                y: 100,
+                width: 400,
+                height: 300
+            }}
+    >
         <div className="window">
             <nav>
                 <div className="dots">

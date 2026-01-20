@@ -1,7 +1,9 @@
 .window{
-    height: 300px;
-    width: 400px;
+    
     background: rgba(40, 39, 39, 0.977);
+    overflow-y: scroll;
+    overflow-x: hidden;
+    height: 100%;
     nav{
         padding-inline: 0.8rem;
         padding-block: 0.4rem;
@@ -34,6 +36,10 @@
         }
         }
         
+        
+    }
+    .main-content{
+        height: 100%;
         
     }
 }
