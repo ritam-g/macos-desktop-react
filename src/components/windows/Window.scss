@@ -1,0 +1,39 @@
+.window{
+    height: 300px;
+    width: 400px;
+    background: rgba(40, 39, 39, 0.977);
+    nav{
+        padding-inline: 0.8rem;
+        padding-block: 0.4rem;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.137);
+            padding-bottom: 0.4rem;
+        .title{
+            color: rgba(101, 93, 93, 0.572);
+        }
+        .dots{
+            display: flex;
+            gap: 0.6rem;
+            
+            .dot{
+            height: 12px;
+            width: 12px;
+            background-color: pink;
+            border-radius: 50%;
+            }
+            .red{
+            background-color: #FF605C;
+        }
+        .yellow{
+            background-color: #FFBD44;
+        }
+        .green{
+            background-color: #00CA4E;
+        }
+        }
+        
+        
+    }
+}

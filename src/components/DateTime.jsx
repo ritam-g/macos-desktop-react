@@ -32,6 +32,9 @@ function DateTime() {
         borderRadius: "8px",
         color: "#fff",
         fontSize: "13px",
+        display: "flex",
+        alignItems: "center",
+        gap: "8px",
         fontFamily:
           '-apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif',
         textAlign: "center",
@@ -39,8 +42,9 @@ function DateTime() {
         backdropFilter: "blur(8px)",
       }}
     >
+       <div style={{ fontSize: "11px", opacity: 0.8 }}>{dateString}</div>
       <div style={{ fontWeight: 500 }}>{timeString}</div>
-      <div style={{ fontSize: "11px", opacity: 0.8 }}>{dateString}</div>
+      
     </div>
   );
 }
