@@ -1,0 +1,67 @@
+.Dock{
+    display: flex;
+    gap: 0.5rem;
+    position: absolute;
+    bottom: 1rem;
+    left: 50%;
+    transform: translateX(-50%);
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 1rem;
+    backdrop-filter: blur(10px);
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    .icon{
+        padding: 0.5rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.5s cubic-bezier(0.23, 1, 0.320, 1);
+    }
+    .github, .note, .pdf, .calender, .spotify, .mail, .link, .cli{
+        img{
+            width: 2.5rem;
+            height: 2.5rem;
+            filter: drop-shadow(0 0 0.75rem rgba(0, 0, 0, 0.5));
+        }
+    }
+    .github{
+        background-color: black;
+    }
+    .note{
+        background-color: #FFEB3B;
+        border-radius: 0.5rem;
+    }
+    .pdf{
+        background-color: #E53935;
+        border-radius: 0.5rem;
+    }
+    .calender{
+        background-color: #42A5F5;
+        border-radius: 0.5rem;
+    }
+    .spotify{
+        background-color: #1DB954;
+        border-radius: 0.5rem;
+    }
+    .mail{
+        background-color: #1976D2;
+        border-radius: 0.5rem;
+    }
+    .link{
+        background-color: #9C27B0;
+        border-radius: 0.5rem;
+    }
+    .cli{
+        background-color: #424242;
+        border-radius: 0.5rem;
+    }
+
+    .icon:hover{
+        transform: scale(1.2) translateY(-20%);
+        cursor: pointer;
+    }
+    .icon:hover + .icon,
+    .icon:has(+ .icon:hover){
+        transform: scale(1.1) translateY(-10%);
+    }
+    
+}
