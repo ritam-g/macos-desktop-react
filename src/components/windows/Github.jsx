@@ -1,34 +1,31 @@
-import React from 'react'
-import MacWindow from './MacWindow'
+import MacWindow from "./MacWindow"
 import githubData from"../../assets/github.json"
-import "./github.scss"
+import './github.scss'
 function Github() {
-  function Gitcard(data = { id:1, image: "", title: "", description: "", tags: [], repoLink: "", demoLink: ""},idx ) {
-    return <div className="card" key={idx}>
-      <img src={data.image} alt="" />
-      <h1>{data.title}</h1>
-      <p>{data.description}</p>
-      <div className="tags">
-        {
-          data.tags.map(tag=>{
-            return <p className='tag'>{tag}</p>
-          })
-        }
-      </div>
-      <div className="urls">
-        <a href={data.repoLink}> Repo</a>
-        {data.demoLink&&<a  href={data.demoLink}>Demo</a>}
-      </div>
-    </div>
-  }
   return (
-    <MacWindow>
-        <div className="cards">
-          {githubData.map((project,idx)=>{
-            return Gitcard(project)
-          })}
-        </div>
+    <MacWindow >
+      <div className="cards">
+        {githubData.map((project) => (
+          <div className="card" key={project.id}>
+            <img src={project.image} alt="" />
+            <h1>{project.title}</h1>
+            <p>{project.description}</p>
+
+            <div className="tags">
+              {project.tags.map(tag => (
+                <p className="tag" key={tag}>{tag}</p>
+              ))}
+            </div>
+
+            <div className="urls">
+              <a href={project.repoLink}>Repo</a>
+              {project.demoLink && <a href={project.demoLink}>Demo</a>}
+            </div>
+          </div>
+        ))}
+      </div>
     </MacWindow>
   )
 }
+
 export default Github
