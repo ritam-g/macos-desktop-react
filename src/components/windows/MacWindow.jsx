@@ -9,7 +9,8 @@ function MacWindow({children}) {
                 x: 100,
                 y: 100,
                 width: 400,
-                height: 300
+                height: 300,
+                
             }}
     >
         <div className="window">

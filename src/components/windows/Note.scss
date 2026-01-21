@@ -1,20 +1,15 @@
-.window {
-  width: 100%;
-  height: 300px; // ✅ FIXED HEIGHT (or calc)
-  background: rgba(40, 39, 39, 0.977);
-  display: flex;
-  flex-direction: column;
-
-  overflow: hidden; // 🚫 prevent x-scroll
-
-  nav{
+.note-window{
+    background: rgba(40, 39, 39, 0.977);
+    color: white;
+    height: 100%;
+    nav{
         padding-inline: 0.8rem;
         padding-block: 0.4rem;
         display: flex;
         align-items: center;
         gap: 0.5rem;
         border-bottom: 1px solid rgba(255, 255, 255, 0.137);
-         padding-bottom: 0.4rem;
+            padding-bottom: 0.4rem;
         .title{
             color: rgba(101, 93, 93, 0.572);
         }
@@ -41,24 +36,16 @@
         
         
     }
-
-  .main-content {
-  flex: 1;
-  overflow-y: auto;
+    .main-content{
+        height: 100%;
+        
+    }
+    pre {
+  max-width: 100%;
   overflow-x: hidden;
-  min-width: 0; // 🔥 REQUIRED for flex layouts
+  white-space: pre;
+  text-overflow: ellipsis;
 }
-
-
-  /* scrollbar */
-  .main-content::-webkit-scrollbar {
-    width: 4px;
-  }
-
-  .main-content::-webkit-scrollbar-thumb {
-    background: rgba(255, 255, 255, 0.25);
-    border-radius: 10px;
-  }
 }
 
 
