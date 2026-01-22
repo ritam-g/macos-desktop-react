@@ -1,26 +1,36 @@
 import React from 'react'
 import "./Nav.scss"
 import DateTime from './DateTime'
-function Nav() {
+function Nav({github,note,resume,spotify,cli, setwindowBox}) {
   return (
     <nav className='Nav'>
         <div className="left ">
-            <div className="apple-icon">
+            <div
+            onClick={()=>{setwindowBox(github=false,note=false,resume=false,spotify=false,cli=false)}}
+            className="apple-icon">
                 <img  src="/navbar-icons/apple.svg" alt="img" />
             </div>
-            <div className="nav-item">
+            <div 
+            onClick={()=>{setwindowBox(state=>({...state, github: !state.github}))}}
+            className="nav-item">
                 <p>Ritam Maty</p>
             </div>
             
             <div className="nav-item">
-                <p>File</p>
+                <p
+                onClick={()=>{setwindowBox(state=>({...state,resume:!resume}))}}
+                >File</p>
             </div>
             
             <div className="nav-item">
-                <p>window</p> 
+                <p
+                
+                >window</p> 
             </div>
             <div className="nav-item">
-                <p>terminal</p> 
+                <p
+                onClick={()=>{setwindowBox(state=>({...state,cli:!cli}))}}
+                >terminal</p> 
             </div>
 
         </div>

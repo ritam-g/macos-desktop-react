@@ -1,6 +1,6 @@
 .window {
   width: 100%;
-  height: 300px; // ✅ FIXED HEIGHT (or calc)
+  height: 400px; // ✅ FIXED HEIGHT (or calc)
   background: rgba(40, 39, 39, 0.977);
   display: flex;
   flex-direction: column;
@@ -50,6 +50,7 @@
   overflow-x: hidden;
   min-width: 0; // 🔥 REQUIRED for flex layouts
   cursor: default;
+  
 }
 
 
