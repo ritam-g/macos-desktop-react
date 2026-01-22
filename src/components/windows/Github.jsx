@@ -1,9 +1,9 @@
 import MacWindow from "./MacWindow"
 import githubData from"../../assets/github.json"
 import './github.scss'
-function Github() {
+function Github({windowname, windowBox, setwindowBox}) {
   return (
-    <MacWindow >
+    <MacWindow windowname={windowname} windowBox={windowBox} setwindowBox={setwindowBox}>
       <div className="cards">
         {githubData.map((project) => (
           <div className="card" key={project.id}>

@@ -1,0 +1,56 @@
+.window {
+  width: 100%;
+  height: 300px;
+  background: rgba(40, 39, 39, 0.977);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  /* scrollbar */
+}
+.window nav {
+  padding-inline: 0.8rem;
+  padding-block: 0.4rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.137);
+  padding-bottom: 0.4rem;
+  cursor: default;
+}
+.window nav .title {
+  color: rgba(101, 93, 93, 0.572);
+}
+.window nav .dots {
+  display: flex;
+  gap: 0.6rem;
+}
+.window nav .dots .dot {
+  height: 12px;
+  width: 12px;
+  background-color: pink;
+  border-radius: 50%;
+}
+.window nav .dots .red {
+  background-color: #FF605C;
+  cursor: pointer;
+}
+.window nav .dots .yellow {
+  background-color: #FFBD44;
+}
+.window nav .dots .green {
+  background-color: #00CA4E;
+}
+.window .main-content {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  min-width: 0;
+  cursor: default;
+}
+.window .main-content::-webkit-scrollbar {
+  width: 4px;
+}
+.window .main-content::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.25);
+  border-radius: 10px;
+}/*# sourceMappingURL=Window.css.map */

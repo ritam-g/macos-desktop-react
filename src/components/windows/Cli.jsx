@@ -2,7 +2,7 @@ import React from 'react'
 import Terminal from 'react-console-emulator'
 import MacWindow from './MacWindow'
 import './cli.scss'
-function Cli() {
+function Cli({windowname, windowBox, setwindowBox}) {
   const commands = {
     helpme: {
       description: 'About this terminal',
@@ -69,7 +69,7 @@ LinkedIn: linkedin.com/in/ritam-g`
   }
 
   return (
-    <MacWindow>
+    <MacWindow windowname={windowname} windowBox={windowBox} setwindowBox={setwindowBox}>
       <div className="cli-sction"></div>
       <Terminal commands={commands}
         welcomeMessage={[

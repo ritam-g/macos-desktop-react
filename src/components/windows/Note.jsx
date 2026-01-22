@@ -4,7 +4,7 @@ import MacWindow from './MacWindow'
 import SyntaxHighlighter from 'react-syntax-highlighter';
 import { dark } from 'react-syntax-highlighter/dist/esm/styles/hljs';
 import './Note.scss'
-function Note() {
+function Note({windowname, windowBox, setwindowBox}) {
     const [markdown, setmarkdown] = useState(null);
     useEffect(() => {
         fetch("/note.txt")
@@ -13,7 +13,7 @@ function Note() {
     }, [])
     return (
 
-        <MacWindow>
+        <MacWindow windowname={windowname} windowBox={windowBox} setwindowBox={setwindowBox}>
             <div className="note-window">
                 {markdown ? <SyntaxHighlighter language="typescript" style={dark}>{markdown}</SyntaxHighlighter> : <p>loading</p>}
             </div>

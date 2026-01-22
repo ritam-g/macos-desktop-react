@@ -4,7 +4,7 @@ import DateTime from './DateTime'
 function Nav() {
   return (
     <nav className='Nav'>
-        <div className="left">
+        <div className="left ">
             <div className="apple-icon">
                 <img  src="/navbar-icons/apple.svg" alt="img" />
             </div>
