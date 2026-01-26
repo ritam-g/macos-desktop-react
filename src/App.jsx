@@ -27,12 +27,35 @@ function App() {
     cli: false
   })
 
+  // Track the order of focus for windows
+  const [focusedWindow, setFocusedWindow] = useState(null)
+  const [zIndices, setZIndices] = useState({
+    github: 1,
+    note: 1,
+    resume: 1,
+    spotify: 1,
+    cli: 1
+  })
+
   const [bgIndex, setBgIndex] = useState(0)
 
+  // Function to bring a window to the front
+  const focusWindow = (name) => {
+    if (!name) return;
+    setFocusedWindow(name)
+    setZIndices(prev => {
+      const currentZ = prev[name] || 1;
+      const maxZ = Math.max(...Object.values(prev));
+      // Only update if it's not already on top or to ensure it becomes top
+      return { ...prev, [name]: maxZ + 1 }
+    })
+  }
+
+  // Restore background rotation but maybe slower (10s)
   useEffect(() => {
     const interval = setInterval(() => {
       setBgIndex(prev => (prev + 1) % wallpapers.length)
-    }, 5000)
+    }, 10000)
 
     return () => clearInterval(interval)
   }, [])
@@ -40,30 +63,60 @@ function App() {
   return (
     <main
       style={{
-        backgroundImage: `url(${wallpapers[bgIndex]})`
+        backgroundImage: `url("${wallpapers[bgIndex]}")`
       }}
     >
-      <Nav windowBox={windowBox} setwindowBox={setwindowBox} />
-      <Dock windowBox={windowBox} setwindowBox={setwindowBox} />
+      <Nav windowBox={windowBox} setwindowBox={setwindowBox} focusWindow={focusWindow} />
+      <Dock windowBox={windowBox} setwindowBox={setwindowBox} focusWindow={focusWindow} />
 
       {windowBox.github && (
-        <Github windowname="github" windowBox={windowBox} setwindowBox={setwindowBox} />
+        <Github
+          windowname="github"
+          windowBox={windowBox}
+          setwindowBox={setwindowBox}
+          zIndex={zIndices.github}
+          onFocus={() => focusWindow('github')}
+        />
       )}
 
       {windowBox.note && (
-        <Note windowname="note" windowBox={windowBox} setwindowBox={setwindowBox} />
+        <Note
+          windowname="note"
+          windowBox={windowBox}
+          setwindowBox={setwindowBox}
+          zIndex={zIndices.note}
+          onFocus={() => focusWindow('note')}
+        />
       )}
 
       {windowBox.resume && (
-        <Resume windowname="resume" windowBox={windowBox} setwindowBox={setwindowBox} />
+        <Resume
+          windowname="resume"
+          windowBox={windowBox}
+          setwindowBox={setwindowBox}
+          zIndex={zIndices.resume}
+          onFocus={() => focusWindow('resume')}
+        />
       )}
 
       {windowBox.spotify && (
-        <Spotify windowname="spotify" windowBox={windowBox} setwindowBox={setwindowBox} />
+        <Spotify
+          windowname="spotify"
+          windowBox={windowBox}
+          setwindowBox={setwindowBox}
+          zIndex={zIndices.spotify}
+          onFocus={() => focusWindow('spotify')}
+        />
       )}
 
       {windowBox.cli && (
-        <Cli windowname="cli" windowBox={windowBox} setwindowBox={setwindowBox} />
+        <Cli
+          windowname="cli"
+          windowBox={windowBox}
+          setwindowBox={setwindowBox}
+          zIndex={zIndices.cli}
+          onFocus={() => focusWindow('cli')}
+        />
       )}
     </main>
   )

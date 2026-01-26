@@ -3,7 +3,7 @@
  
   {
     "id": 3,
-    "image": "../../../public/images/image3.png",
+    "image": "/images/image3.png",
     "title": "dogstudio-3d-clone",
     "description": "Interactive 3D web experience built with React, Three.js, and GSAP.",
     "tags": ["React", "Three.js", "GSAP"],
@@ -21,7 +21,7 @@
   },
   {
     "id": 5,
-    "image": "../../../public/images/image2.png",
+    "image": "/images/image2.png",
     "title": "Web Image Editor",
     "description": "Browser-based image editor with filters and real-time previews.",
     "tags": ["JavaScript", "CSS", "HTML"],
@@ -30,7 +30,7 @@
   },
   {
     "id": 6,
-    "image": "../../../public/images/image.png",
+    "image": "/images/image.png",
     "title": "Snake Game",
     "description": "Classic Snake game built using JavaScript and CSS grid layout.",
     "tags": ["JavaScript", "CSS", "Game"],

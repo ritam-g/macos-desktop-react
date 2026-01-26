@@ -3,10 +3,10 @@ import Terminal from 'react-console-emulator'
 import MacWindow from './MacWindow'
 import './cli.scss'
 
-function Cli({ windowname, windowBox, setwindowBox }) {
+function Cli({ windowname, windowBox, setwindowBox, zIndex, onFocus }) {
 
   const commands = {
-    
+
 
     about: {
       description: 'About me',
@@ -127,7 +127,7 @@ LinkedIn: linkedin.com/in/ritam-g`
       fn: (...args) => args.join(' ')
     },
 
-    
+
   }
 
   return (
@@ -135,39 +135,41 @@ LinkedIn: linkedin.com/in/ritam-g`
       windowname={windowname}
       windowBox={windowBox}
       setwindowBox={setwindowBox}
+      zIndex={zIndex}
+      onFocus={onFocus}
     >
       <div className='cli-sction'>
 
-      
-      <Terminal
-        commands={commands}
-        welcomeMessage={[
-          '┌──────────────────────────────┐',
-          '│  Welcome to Ritam’s Portfolio │',
-          '│  macOS-style Web Terminal    │',
-          '└──────────────────────────────┘',
-          'Type `help` to explore 🚀',
-        ]}
-        promptLabel={'ritam@portfolio:~$ '}
-        promptLabelStyle={{
-          color: '#00ff9c',
-          fontWeight: '600'
-        }}
-        contentStyle={{
-          background: 'transparent',
-          color: '#e5e5e5',
-          fontFamily: 'Menlo, Monaco, monospace',
-          fontSize: '13px'
-        }}
-        inputStyle={{
-          color: '#ffffff'
-        }}
-        style={{
-          background: 'transparent',
-          height: '100%',
-          padding: '12px'
-        }}
-      />
+
+        <Terminal
+          commands={commands}
+          welcomeMessage={[
+            '┌──────────────────────────────┐',
+            '│  Welcome to Ritam’s Portfolio │',
+            '│  macOS-style Web Terminal    │',
+            '└──────────────────────────────┘',
+            'Type `help` to explore 🚀',
+          ]}
+          promptLabel={'ritam@portfolio:~$ '}
+          promptLabelStyle={{
+            color: '#00ff9c',
+            fontWeight: '600'
+          }}
+          contentStyle={{
+            background: 'transparent',
+            color: '#e5e5e5',
+            fontFamily: 'Menlo, Monaco, monospace',
+            fontSize: '13px'
+          }}
+          inputStyle={{
+            color: '#ffffff'
+          }}
+          style={{
+            background: 'transparent',
+            height: '100%',
+            padding: '12px'
+          }}
+        />
       </div>
     </MacWindow>
   )
