@@ -8,6 +8,8 @@ import Note from './components/windows/Note'
 import Resume from './components/windows/Resume'
 import Spotify from './components/windows/Spotify'
 import Cli from './components/windows/Cli'
+import Calculator from './components/windows/Calculator'
+import DesktopIcon from './components/DesktopIcon'
 
 const wallpapers = [
   '/mac-wallpaper.jpg',
@@ -24,7 +26,8 @@ function App() {
     note: false,
     resume: false,
     spotify: false,
-    cli: false
+    cli: false,
+    calculator: false
   })
 
   // Track the order of focus for windows
@@ -34,7 +37,8 @@ function App() {
     note: 1,
     resume: 1,
     spotify: 1,
-    cli: 1
+    cli: 1,
+    calculator: 1
   })
 
   const [bgIndex, setBgIndex] = useState(0)
@@ -118,6 +122,30 @@ function App() {
           onFocus={() => focusWindow('cli')}
         />
       )}
+
+      {windowBox.calculator && (
+        <Calculator
+          windowname="calculator"
+          windowBox={windowBox}
+          setwindowBox={setwindowBox}
+          zIndex={zIndices.calculator}
+          onFocus={() => focusWindow('calculator')}
+        />
+      )}
+
+      <div className="desktop-icons-container">
+        <DesktopIcon
+          name="Macintosh HD"
+          icon="https://img.icons8.com/plasticine/100/hard-drive.png"
+          onClick={() => console.log('Hard drive clicked')}
+        />
+        <DesktopIcon
+          name="Trash"
+          icon="https://img.icons8.com/plasticine/100/trash.png"
+          onClick={() => console.log('Trash clicked')}
+        />
+      </div>
+
     </main>
   )
 }
