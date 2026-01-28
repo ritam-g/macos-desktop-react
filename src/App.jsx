@@ -10,14 +10,15 @@ import Spotify from './components/windows/Spotify'
 import Cli from './components/windows/Cli'
 import Calculator from './components/windows/Calculator'
 import DesktopIcon from './components/DesktopIcon'
+import ContextMenu from './components/ContextMenu'
 
 const wallpapers = [
-  '/mac-wallpaper.jpg',
-  '/mac1.jpg',
-  '/mac2.jpg',
-  '/mac3.jpg',
-  '/mac4.jpg',
-  '/mac5.jpg',
+  'mac-wallpaper.jpg',
+  'mac1.jpg',
+  'mac2.jpg',
+  'mac3.jpg',
+  'mac4.jpg',
+  'mac5.jpg',
 ]
 
 function App() {
@@ -55,6 +56,23 @@ function App() {
     })
   }
 
+  const [contextMenu, setContextMenu] = useState({ visible: false, x: 0, y: 0 })
+
+  const handleContextMenu = (e) => {
+    e.preventDefault()
+    setContextMenu({
+      visible: true,
+      x: e.clientX,
+      y: e.clientY
+    })
+  }
+
+  const contextActions = {
+    newFolder: () => alert('New Folder created (Mock)'),
+    getInfo: () => alert('macOS Desktop React\nVersion 1.0.0\nDeveloper: Ritam Maty'),
+    changeWallpaper: () => setBgIndex(prev => (prev + 1) % wallpapers.length)
+  }
+
   // Restore background rotation but maybe slower (10s)
   useEffect(() => {
     const interval = setInterval(() => {
@@ -69,7 +87,14 @@ function App() {
       style={{
         backgroundImage: `url("${wallpapers[bgIndex]}")`
       }}
+      onContextMenu={handleContextMenu}
+      onClick={() => setContextMenu({ ...contextMenu, visible: false })}
     >
+      <ContextMenu
+        {...contextMenu}
+        onClose={() => setContextMenu({ ...contextMenu, visible: false })}
+        actions={contextActions}
+      />
       <Nav windowBox={windowBox} setwindowBox={setwindowBox} focusWindow={focusWindow} />
       <Dock windowBox={windowBox} setwindowBox={setwindowBox} focusWindow={focusWindow} />
 
@@ -136,7 +161,7 @@ function App() {
       <div className="desktop-icons-container">
         <DesktopIcon
           name="Macintosh HD"
-          icon="https://img.icons8.com/plasticine/100/hard-drive.png"
+          icon="image.png"
           onClick={() => console.log('Hard drive clicked')}
         />
         <DesktopIcon

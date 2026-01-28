@@ -28,7 +28,7 @@ function Nav({ windowBox, setwindowBox, focusWindow }) {
                 <div
                     onClick={closeAll}
                     className="apple-icon">
-                    <img src="/navbar-icons/apple.svg" alt="img" />
+                    <img src="navbar-icons/apple.svg" alt="img" />
                 </div>
                 <div
                     onClick={() => toggleApp('github')}
@@ -56,7 +56,7 @@ function Nav({ windowBox, setwindowBox, focusWindow }) {
             </div>
             <div className="right">
                 <div className="nav-item">
-                    <img src="/navbar-icons/wifi.svg" alt="img" />
+                    <img src="navbar-icons/wifi.svg" alt="img" />
                 </div>
                 <div className="nav-item">
                     <DateTime />

@@ -3,7 +3,7 @@
  
   {
     "id": 3,
-    "image": "/images/image3.png",
+    "image": "images/image3.png",
     "title": "dogstudio-3d-clone",
     "description": "Interactive 3D web experience built with React, Three.js, and GSAP.",
     "tags": ["React", "Three.js", "GSAP"],
@@ -21,7 +21,7 @@
   },
   {
     "id": 5,
-    "image": "/images/image2.png",
+    "image": "images/image2.png",
     "title": "Web Image Editor",
     "description": "Browser-based image editor with filters and real-time previews.",
     "tags": ["JavaScript", "CSS", "HTML"],
@@ -30,7 +30,7 @@
   },
   {
     "id": 6,
-    "image": "/images/image.png",
+    "image": "images/image.png",
     "title": "Snake Game",
     "description": "Classic Snake game built using JavaScript and CSS grid layout.",
     "tags": ["JavaScript", "CSS", "Game"],
@@ -38,7 +38,7 @@
     "demoLink": "https://snake-game-8nzq.vercel.app/"
   },{
     "id": 1,
-    "image": "https://raw.githubusercontent.com/ritam-g/SmartCore-AI/main/screenshot.png",
+    "image": "https://viso.ai/wp-content/uploads/2024/02/ASI-ANI-AGI-types-of-AI.jpg",
     "title": "SmartCore-AI",
     "description": "A Python voice assistant that performs tasks using speech recognition and text-to-speech.",
     "tags": ["Python", "Speech Recognition", "TTS"],

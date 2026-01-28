@@ -11,32 +11,32 @@ function Dock({ windowBox, setwindowBox, focusWindow }) {
     <footer className='Dock'>
       <div
         onClick={() => openApp('github')}
-        className={`icon github ${windowBox.github ? 'active' : ''}`}><img src="/doc-icons/github.svg" alt="" /></div>
+        className={`icon github ${windowBox.github ? 'active' : ''}`}><img src="doc-icons/github.svg" alt="" /></div>
       <div
         onClick={() => openApp('note')}
-        className={`icon note ${windowBox.note ? 'active' : ''}`}><img src="/doc-icons/note.svg" alt="" /></div>
+        className={`icon note ${windowBox.note ? 'active' : ''}`}><img src="doc-icons/note.svg" alt="" /></div>
       <div
         onClick={() => openApp('resume')}
-        className={`icon pdf ${windowBox.resume ? 'active' : ''}`}><img src="/doc-icons/pdf.svg" alt="" /></div>
+        className={`icon pdf ${windowBox.resume ? 'active' : ''}`}><img src="doc-icons/pdf.svg" alt="" /></div>
       <div
         onClick={() => { window.open("https://calendar.google.com/", "_blank") }}
-        className="icon calender"><img src="/doc-icons/calender.svg" alt="" /></div>
+        className="icon calender"><img src="doc-icons/calender.svg" alt="" /></div>
       <div
         onClick={() => openApp('spotify')}
-        className={`icon spotify ${windowBox.spotify ? 'active' : ''}`}><img src="/doc-icons/spotify.svg" alt="" /></div>
+        className={`icon spotify ${windowBox.spotify ? 'active' : ''}`}><img src="doc-icons/spotify.svg" alt="" /></div>
       <div
         onClick={() => {
           window.open("mailto:ritammaty@gmail.com", "_blank")
         }}
-        className="icon mail"><img src="/doc-icons/mail.svg" alt="" /></div>
+        className="icon mail"><img src="doc-icons/mail.svg" alt="" /></div>
       <div
         onClick={() => {
           window.open("https://www.linkedin.com/in/ritammaty/", "_blank")
         }}
-        className="icon link"><img src="/doc-icons/link.svg" alt="" /></div>
+        className="icon link"><img src="doc-icons/link.svg" alt="" /></div>
       <div
         onClick={() => openApp('cli')}
-        className={`icon cli ${windowBox.cli ? 'active' : ''}`}><img src="/doc-icons/cli.svg" alt="" /></div>
+        className={`icon cli ${windowBox.cli ? 'active' : ''}`}><img src="doc-icons/cli.svg" alt="" /></div>
       <div
         onClick={() => openApp('calculator')}
         className={`icon calculator ${windowBox.calculator ? 'active' : ''}`}>

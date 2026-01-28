@@ -1,51 +1,58 @@
-.note-window{
+.note-window {
     background: rgba(40, 39, 39, 0.977);
     color: white;
     height: 100%;
-    nav{
+
+    nav {
         padding-inline: 0.8rem;
         padding-block: 0.4rem;
         display: flex;
         align-items: center;
         gap: 0.5rem;
         border-bottom: 1px solid rgba(255, 255, 255, 0.137);
-            padding-bottom: 0.4rem;
-        .title{
+        padding-bottom: 0.4rem;
+
+        .title {
             color: rgba(101, 93, 93, 0.572);
         }
-        .dots{
+
+        .dots {
             display: flex;
             gap: 0.6rem;
-            
-            .dot{
-            height: 12px;
-            width: 12px;
-            background-color: pink;
-            border-radius: 50%;
+
+            .dot {
+                height: 12px;
+                width: 12px;
+                background-color: pink;
+                border-radius: 50%;
             }
-            .red{
-            background-color: #FF605C;
+
+            .red {
+                background-color: #FF605C;
+            }
+
+            .yellow {
+                background-color: #FFBD44;
+            }
+
+            .green {
+                background-color: #00CA4E;
+            }
         }
-        .yellow{
-            background-color: #FFBD44;
-        }
-        .green{
-            background-color: #00CA4E;
-        }
-        }
-        
-        
+
+
     }
-    .main-content{
+
+    .main-content {
         height: 100%;
-        
+        overflow-x: hidden;
+
     }
+
     pre {
-  max-width: 100%;
-  overflow-x: hidden;
-  white-space: pre;
-  text-overflow: ellipsis;
+        max-width: 100%;
+        overflow-x: hidden;
+        white-space: pre-wrap;
+        word-break: break-word;
+    }
 }
-}
-
-
