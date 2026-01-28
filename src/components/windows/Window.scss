@@ -7,62 +7,69 @@
 
   overflow: hidden; // 🚫 prevent x-scroll
 
-  nav{
-        padding-inline: 0.8rem;
-        padding-block: 0.4rem;
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.137);
-         padding-bottom: 0.4rem;
-         cursor: default;
-        .title{
-            color: rgba(101, 93, 93, 0.572);
-        }
-        .dots{
-            display: flex;
-            gap: 0.6rem;
-            
-            .dot{
-            height: 12px;
-            width: 12px;
-            background-color: pink;
-            border-radius: 50%;
-            }
-            .red{
-            background-color: #FF605C;
-            cursor: pointer;
-        }
-        .yellow{
-            background-color: #FFBD44;
-        }
-        .green{
-            background-color: #00CA4E;
-        }
-        }
-        
-        
+  nav {
+    padding-inline: 0.8rem;
+    padding-block: 0.4rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.137);
+    padding-bottom: 0.4rem;
+    cursor: default;
+
+    .title {
+      color: rgba(101, 93, 93, 0.572);
     }
 
+    .dots {
+      display: flex;
+      gap: 0.6rem;
+
+      .dot {
+        height: 12px;
+        width: 12px;
+        background-color: pink;
+        border-radius: 50%;
+      }
+
+      .red {
+        background-color: #FF605C;
+        cursor: pointer;
+      }
+
+      .yellow {
+        background-color: #FFBD44;
+      }
+
+      .green {
+        background-color: #00CA4E;
+      }
+    }
+
+
+  }
+
   .main-content {
-  flex: 1;
-  overflow-y: auto;
-  overflow-x: hidden;
-  min-width: 0; // 🔥 REQUIRED for flex layouts
-  cursor: default;
-  
-}
+    flex: 1;
+    overflow-y: auto;
+    overflow-x: hidden;
+    min-width: 0; // 🔥 REQUIRED for flex layouts
+    cursor: default;
+
+  }
 
 
   /* scrollbar */
   .main-content::-webkit-scrollbar {
-    width: 4px;
+    width: 5px;
   }
 
   .main-content::-webkit-scrollbar-thumb {
-    background: rgba(255, 255, 255, 0.25);
+    background: rgba(255, 255, 255, 0.2);
     border-radius: 10px;
   }
+
+  .main-content::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.35);
+  }
 }
-
-
