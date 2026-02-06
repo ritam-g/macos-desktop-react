@@ -11,6 +11,7 @@ import Cli from './components/windows/Cli'
 import Calculator from './components/windows/Calculator'
 import DesktopIcon from './components/DesktopIcon'
 import ContextMenu from './components/ContextMenu'
+import Spotlight from './components/Spotlight'
 
 const wallpapers = [
   'mac-wallpaper.jpg',
@@ -23,6 +24,16 @@ const wallpapers = [
 
 function App() {
   const [windowBox, setwindowBox] = useState({
+    github: false,
+    note: false,
+    resume: false,
+    spotify: false,
+    cli: false,
+    calculator: false
+  })
+
+  // Minimized state
+  const [minimizedWindows, setMinimizedWindows] = useState({
     github: false,
     note: false,
     resume: false,
@@ -56,6 +67,33 @@ function App() {
     })
   }
 
+
+
+  const [spotlightOpen, setSpotlightOpen] = useState(false)
+
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
+        e.preventDefault()
+        setSpotlightOpen(prev => !prev)
+      }
+    }
+    window.addEventListener('keydown', handleKeyDown)
+    return () => window.removeEventListener('keydown', handleKeyDown)
+  }, [])
+
+  const handleSpotlightLaunch = (appId) => {
+    // Check if the app exists in windowBox state
+    if (windowBox.hasOwnProperty(appId)) {
+      if (minimizedWindows[appId]) {
+        restoreWindow(appId)
+      } else {
+        setwindowBox(prev => ({ ...prev, [appId]: true }))
+        focusWindow(appId)
+      }
+    }
+  }
+
   const [contextMenu, setContextMenu] = useState({ visible: false, x: 0, y: 0 })
 
   const handleContextMenu = (e) => {
@@ -71,6 +109,16 @@ function App() {
     newFolder: () => alert('New Folder created (Mock)'),
     getInfo: () => alert('macOS Desktop React\nVersion 1.0.0\nDeveloper: Ritam Maty'),
     changeWallpaper: () => setBgIndex(prev => (prev + 1) % wallpapers.length)
+  }
+
+  const toggleMinimize = (name) => {
+    setMinimizedWindows(prev => ({ ...prev, [name]: !prev[name] }))
+  }
+
+  // Modified to restore if minimized
+  const restoreWindow = (name) => {
+    setMinimizedWindows(prev => ({ ...prev, [name]: false }))
+    focusWindow(name)
   }
 
   // Restore background rotation but maybe slower (10s)
@@ -95,8 +143,19 @@ function App() {
         onClose={() => setContextMenu({ ...contextMenu, visible: false })}
         actions={contextActions}
       />
-      <Nav windowBox={windowBox} setwindowBox={setwindowBox} focusWindow={focusWindow} />
-      <Dock windowBox={windowBox} setwindowBox={setwindowBox} focusWindow={focusWindow} />
+      <Spotlight
+        isOpen={spotlightOpen}
+        onClose={() => setSpotlightOpen(false)}
+        onLaunch={handleSpotlightLaunch}
+      />
+      <Nav windowBox={windowBox} setwindowBox={setwindowBox} focusWindow={restoreWindow} />
+      <Dock
+        windowBox={windowBox}
+        setwindowBox={setwindowBox}
+        focusWindow={restoreWindow}
+        minimizedWindows={minimizedWindows}
+        toggleMinimize={toggleMinimize}
+      />
 
       {windowBox.github && (
         <Github
@@ -104,7 +163,9 @@ function App() {
           windowBox={windowBox}
           setwindowBox={setwindowBox}
           zIndex={zIndices.github}
-          onFocus={() => focusWindow('github')}
+          onFocus={() => restoreWindow('github')}
+          minimized={minimizedWindows.github}
+          onMinimize={() => toggleMinimize('github')}
         />
       )}
 
@@ -114,7 +175,9 @@ function App() {
           windowBox={windowBox}
           setwindowBox={setwindowBox}
           zIndex={zIndices.note}
-          onFocus={() => focusWindow('note')}
+          onFocus={() => restoreWindow('note')}
+          minimized={minimizedWindows.note}
+          onMinimize={() => toggleMinimize('note')}
         />
       )}
 
@@ -124,7 +187,9 @@ function App() {
           windowBox={windowBox}
           setwindowBox={setwindowBox}
           zIndex={zIndices.resume}
-          onFocus={() => focusWindow('resume')}
+          onFocus={() => restoreWindow('resume')}
+          minimized={minimizedWindows.resume}
+          onMinimize={() => toggleMinimize('resume')}
         />
       )}
 
@@ -134,7 +199,9 @@ function App() {
           windowBox={windowBox}
           setwindowBox={setwindowBox}
           zIndex={zIndices.spotify}
-          onFocus={() => focusWindow('spotify')}
+          onFocus={() => restoreWindow('spotify')}
+          minimized={minimizedWindows.spotify}
+          onMinimize={() => toggleMinimize('spotify')}
         />
       )}
 
@@ -144,7 +211,9 @@ function App() {
           windowBox={windowBox}
           setwindowBox={setwindowBox}
           zIndex={zIndices.cli}
-          onFocus={() => focusWindow('cli')}
+          onFocus={() => restoreWindow('cli')}
+          minimized={minimizedWindows.cli}
+          onMinimize={() => toggleMinimize('cli')}
         />
       )}
 
@@ -154,7 +223,9 @@ function App() {
           windowBox={windowBox}
           setwindowBox={setwindowBox}
           zIndex={zIndices.calculator}
-          onFocus={() => focusWindow('calculator')}
+          onFocus={() => restoreWindow('calculator')}
+          minimized={minimizedWindows.calculator}
+          onMinimize={() => toggleMinimize('calculator')}
         />
       )}
 

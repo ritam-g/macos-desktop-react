@@ -1,9 +1,23 @@
 import React from 'react'
 import "./Dock.scss"
-function Dock({ windowBox, setwindowBox, focusWindow }) {
+function Dock({ windowBox, setwindowBox, focusWindow, minimizedWindows, toggleMinimize }) {
   const openApp = (name) => {
-    setwindowBox(state => ({ ...state, [name]: true }));
-    focusWindow(name);
+    if (windowBox[name]) {
+      // If open
+      if (minimizedWindows && minimizedWindows[name]) {
+        // If minimized, restore it
+        focusWindow(name);
+      } else {
+        // If visible, minimizing or focusing? 
+        // macOS logic: if focused, minimize? Or just focus? 
+        // Let's toggle minimize if already open.
+        toggleMinimize(name);
+      }
+    } else {
+      // If closed, open it
+      setwindowBox(state => ({ ...state, [name]: true }));
+      focusWindow(name);
+    }
   };
 
   return (
