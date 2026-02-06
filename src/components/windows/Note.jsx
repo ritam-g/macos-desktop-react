@@ -4,7 +4,7 @@ import MacWindow from './MacWindow'
 import SyntaxHighlighter from 'react-syntax-highlighter';
 import { dark } from 'react-syntax-highlighter/dist/esm/styles/hljs';
 import './Note.scss'
-function Note({ windowname, windowBox, setwindowBox, zIndex, onFocus }) {
+function Note({ windowname, windowBox, setwindowBox, zIndex, onFocus, onMinimize, minimized }) {
     const [content, setContent] = useState('');
     const [loading, setLoading] = useState(true);
     const [isEditing, setIsEditing] = useState(false);
@@ -35,7 +35,7 @@ function Note({ windowname, windowBox, setwindowBox, zIndex, onFocus }) {
     };
 
     return (
-        <MacWindow windowname={windowname} windowBox={windowBox} setwindowBox={setwindowBox} zIndex={zIndex} onFocus={onFocus}>
+        <MacWindow windowname={windowname} windowBox={windowBox} setwindowBox={setwindowBox} zIndex={zIndex} onFocus={onFocus} onMinimize={onMinimize} minimized={minimized}>
             <div className="note-window" style={{ height: '100%', display: 'flex', flexDirection: 'column' }}>
                 <div className="note-toolbar" style={{
                     padding: '5px 15px',

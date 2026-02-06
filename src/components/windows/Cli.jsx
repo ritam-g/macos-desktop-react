@@ -3,7 +3,7 @@ import Terminal from 'react-console-emulator'
 import MacWindow from './MacWindow'
 import './cli.scss'
 
-function Cli({ windowname, windowBox, setwindowBox, zIndex, onFocus }) {
+function Cli({ windowname, windowBox, setwindowBox, zIndex, onFocus, onMinimize, minimized }) {
 
   const commands = {
 
@@ -137,6 +137,8 @@ LinkedIn: linkedin.com/in/ritam-g`
       setwindowBox={setwindowBox}
       zIndex={zIndex}
       onFocus={onFocus}
+      onMinimize={onMinimize}
+      minimized={minimized}
     >
       <div className='cli-sction'>
 

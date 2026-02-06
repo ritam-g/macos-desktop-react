@@ -39,16 +39,22 @@ function MacWindow({ children, width = 400, height = 400, windowname, windowBox,
                         <div onClick={(e) => {
                             e.stopPropagation();
                             setwindowBox(state => ({ ...state, [windowname]: false }))
-                        }} className="dot red"></div>
+                        }} className="dot red">
+                            <span>x</span>
+                        </div>
                         <div onClick={(e) => {
                             e.stopPropagation();
                             // Minimize logic
                             if (onMinimize) onMinimize();
-                        }} className="dot yellow"></div>
+                        }} className="dot yellow">
+                            <span>-</span>
+                        </div>
                         <div onClick={(e) => {
                             e.stopPropagation();
                             setMaximized(!maximized);
-                        }} className="dot green"></div>
+                        }} className="dot green">
+                            <span>+</span>
+                        </div>
 
                     </div>
                     <div className="title">
