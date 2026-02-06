@@ -22,7 +22,10 @@ const wallpapers = [
   'mac5.jpg',
 ]
 
+import BootScreen from './components/BootScreen'
+
 function App() {
+  const [booting, setBooting] = useState(true)
   const [windowBox, setwindowBox] = useState({
     github: false,
     note: false,
@@ -129,6 +132,10 @@ function App() {
 
     return () => clearInterval(interval)
   }, [])
+
+  if (booting) {
+    return <BootScreen onComplete={() => setBooting(false)} />
+  }
 
   return (
     <main

@@ -27,24 +27,20 @@ function DateTime() {
   return (
     <div
       style={{
-        padding: "8px 16px",
-        backgroundColor: "rgba(0, 0, 0, 0.4)",
-        borderRadius: "8px",
+        padding: "0 8px",
         color: "#fff",
         fontSize: "13px",
         display: "flex",
         alignItems: "center",
         gap: "8px",
-        fontFamily:
-          '-apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif',
+        fontFamily: '-apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif',
         textAlign: "center",
-        minWidth: "110px",
-        backdropFilter: "blur(8px)",
+        cursor: "default"
       }}
     >
-       <div style={{ fontSize: "11px", opacity: 0.8 }}>{dateString}</div>
+      <div style={{ fontWeight: 400 }}>{dateString}</div>
       <div style={{ fontWeight: 500 }}>{timeString}</div>
-      
+
     </div>
   );
 }
