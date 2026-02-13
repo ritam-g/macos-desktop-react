@@ -2,8 +2,12 @@ import React from 'react'
 import Terminal from 'react-console-emulator'
 import MacWindow from './MacWindow'
 import './cli.scss'
+import { useSelector, useDispatch } from 'react-redux'
+import { openWindow } from '../../store/features/windows/windowSlice'
 
-function Cli({ windowname, windowBox, setwindowBox, zIndex, onFocus, onMinimize, minimized }) {
+function Cli({ windowname }) {
+  const dispatch = useDispatch()
+  const windowBox = useSelector(state => state.windows.windowBox)
 
   const commands = {
 
@@ -101,7 +105,7 @@ Tools:
         if (!app) return 'Specify an app name'
 
         if (windowBox[app] !== undefined) {
-          setwindowBox({ ...windowBox, [app]: true })
+          dispatch(openWindow(app))
           return `Opening ${app}... 🚀`
         }
 
@@ -133,12 +137,6 @@ LinkedIn: linkedin.com/in/ritam-g`
   return (
     <MacWindow
       windowname={windowname}
-      windowBox={windowBox}
-      setwindowBox={setwindowBox}
-      zIndex={zIndex}
-      onFocus={onFocus}
-      onMinimize={onMinimize}
-      minimized={minimized}
     >
       <div className='cli-sction'>
 

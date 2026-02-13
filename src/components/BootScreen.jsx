@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import './BootScreen.scss'
+import { useDispatch } from 'react-redux'
+import { setBooting } from '../store/features/boot/bootSlice'
 
 function BootScreen({ onComplete }) {
+    const dispatch = useDispatch()
     const [progress, setProgress] = useState(0)
 
     useEffect(() => {
@@ -9,7 +12,10 @@ function BootScreen({ onComplete }) {
             setProgress(prev => {
                 if (prev >= 100) {
                     clearInterval(interval)
-                    setTimeout(onComplete, 500) // Wait a bit after 100%
+                    setTimeout(() => {
+                        if (onComplete) onComplete() // Keep supporting prop if passed
+                        dispatch(setBooting(false))
+                    }, 500) // Wait a bit after 100%
                     return 100
                 }
                 return prev + 1
@@ -17,7 +23,7 @@ function BootScreen({ onComplete }) {
         }, 30) // Adjust speed here
 
         return () => clearInterval(interval)
-    }, [onComplete])
+    }, [dispatch, onComplete])
 
     return (
         <div className="boot-screen">

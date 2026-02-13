@@ -1,25 +1,29 @@
 import React from 'react'
 import "./Nav.scss"
 import DateTime from './DateTime'
-function Nav({ windowBox, setwindowBox, focusWindow }) {
+import { useSelector, useDispatch } from 'react-redux'
+import { openWindow, closeWindow, focusWindow, setWindowBox } from '../store/features/windows/windowSlice'
+
+function Nav() {
+    const dispatch = useDispatch()
+    const windowBox = useSelector(state => state.windows.windowBox)
+
     const toggleApp = (name) => {
-        setwindowBox(state => {
-            const newState = { ...state, [name]: !state[name] };
-            if (newState[name]) {
-                setTimeout(() => focusWindow(name), 0); // Focus after state update
-            }
-            return newState;
-        });
+        if (windowBox[name]) {
+            dispatch(closeWindow(name))
+        } else {
+            dispatch(openWindow(name))
+        }
     };
 
     const closeAll = () => {
-        setwindowBox({
+        dispatch(setWindowBox({
             github: false,
             note: false,
             resume: false,
             spotify: false,
             cli: false
-        });
+        }))
     };
 
     return (

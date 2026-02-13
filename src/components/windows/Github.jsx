@@ -2,16 +2,10 @@ import MacWindow from "./MacWindow"
 import githubData from "../../assets/github.json"
 import "./github.scss"
 
-function Github({ windowname, windowBox, setwindowBox, zIndex, onFocus, onMinimize, minimized }) {
+function Github({ windowname }) {
   return (
     <MacWindow
       windowname={windowname}
-      windowBox={windowBox}
-      setwindowBox={setwindowBox}
-      zIndex={zIndex}
-      onFocus={onFocus}
-      onMinimize={onMinimize}
-      minimized={minimized}
     >
       <div className="cards">
         {githubData.map((project, idx) => (

@@ -1,9 +1,15 @@
 import React, { useState } from 'react'
 import { Rnd } from 'react-rnd'
 import "./Window.scss"
+import { useSelector, useDispatch } from 'react-redux'
+import { closeWindow, focusWindow, toggleMinimize } from '../../store/features/windows/windowSlice'
 
-function MacWindow({ children, width = 400, height = 400, windowname, windowBox, setwindowBox, zIndex, onFocus, minimized, onMinimize }) {
+function MacWindow({ children, width = 400, height = 400, windowname }) {
+    const dispatch = useDispatch()
     const [maximized, setMaximized] = useState(false);
+
+    const minimized = useSelector(state => state.windows.minimizedWindows[windowname])
+    const zIndex = useSelector(state => state.windows.zIndices[windowname])
 
     // If minimized, we hide it but keep it mounted to preserve state.
     // If maximized, we force 0,0 position and 100% size.
@@ -21,6 +27,10 @@ function MacWindow({ children, width = 400, height = 400, windowname, windowBox,
         }
     };
 
+    const handleFocus = () => {
+        dispatch(focusWindow(windowname))
+    }
+
     return (
         <Rnd
             {...rndProps}
@@ -29,23 +39,23 @@ function MacWindow({ children, width = 400, height = 400, windowname, windowBox,
                 display: minimized ? 'none' : 'flex',
                 // Add a transition if desired, but Rnd might fight it
             }}
-            onDragStart={onFocus}
-            onMouseDown={onFocus}
+            onDragStart={handleFocus}
+            onMouseDown={handleFocus}
             className={maximized ? 'maximized-window' : ''}
         >
-            <div className="window" onClick={onFocus} style={{ width: '100%', height: '100%' }}>
+            <div className="window" onClick={handleFocus} style={{ width: '100%', height: '100%' }}>
                 <nav onDoubleClick={() => setMaximized(!maximized)}>
                     <div className="dots">
                         <div onClick={(e) => {
                             e.stopPropagation();
-                            setwindowBox(state => ({ ...state, [windowname]: false }))
+                            dispatch(closeWindow(windowname))
                         }} className="dot red">
                             <span>x</span>
                         </div>
                         <div onClick={(e) => {
                             e.stopPropagation();
                             // Minimize logic
-                            if (onMinimize) onMinimize();
+                            dispatch(toggleMinimize(windowname))
                         }} className="dot yellow">
                             <span>-</span>
                         </div>

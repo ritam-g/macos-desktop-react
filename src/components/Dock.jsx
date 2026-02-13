@@ -1,22 +1,27 @@
 import React from 'react'
 import "./Dock.scss"
-function Dock({ windowBox, setwindowBox, focusWindow, minimizedWindows, toggleMinimize }) {
+import { useSelector, useDispatch } from 'react-redux'
+import { openWindow, focusWindow, toggleMinimize, restoreWindow } from '../store/features/windows/windowSlice'
+
+function Dock() {
+  const dispatch = useDispatch()
+  const windowBox = useSelector(state => state.windows.windowBox)
+  const minimizedWindows = useSelector(state => state.windows.minimizedWindows)
+
+
   const openApp = (name) => {
     if (windowBox[name]) {
       // If open
-      if (minimizedWindows && minimizedWindows[name]) {
+      if (minimizedWindows[name]) {
         // If minimized, restore it
-        focusWindow(name);
+        dispatch(restoreWindow(name));
       } else {
-        // If visible, minimizing or focusing? 
-        // macOS logic: if focused, minimize? Or just focus? 
-        // Let's toggle minimize if already open.
-        toggleMinimize(name);
+        // If visible, toggle minimize
+        dispatch(toggleMinimize(name));
       }
     } else {
       // If closed, open it
-      setwindowBox(state => ({ ...state, [name]: true }));
-      focusWindow(name);
+      dispatch(openWindow(name));
     }
   };
 

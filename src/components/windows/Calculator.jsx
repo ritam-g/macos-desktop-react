@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import MacWindow from './MacWindow'
 import './Calculator.scss'
 
-function Calculator({ windowname, windowBox, setwindowBox, zIndex, onFocus, onMinimize, minimized }) {
+function Calculator({ windowname }) {
     const [display, setDisplay] = useState('0')
     const [prevValue, setPrevValue] = useState(null)
     const [operation, setOperation] = useState(null)
@@ -50,7 +50,7 @@ function Calculator({ windowname, windowBox, setwindowBox, zIndex, onFocus, onMi
     }
 
     return (
-        <MacWindow width={260} height={380} windowname={windowname} windowBox={windowBox} setwindowBox={setwindowBox} zIndex={zIndex} onFocus={onFocus} onMinimize={onMinimize} minimized={minimized}>
+        <MacWindow width={260} height={380} windowname={windowname} >
             <div className="calculator">
                 <div className="calc-display">{display}</div>
                 <div className="calc-buttons">

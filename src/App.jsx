@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import './app.scss'
+import { useSelector, useDispatch } from 'react-redux'
 
 import Dock from './components/Dock'
 import Nav from './components/Nav'
@@ -12,6 +13,13 @@ import Calculator from './components/windows/Calculator'
 import DesktopIcon from './components/DesktopIcon'
 import ContextMenu from './components/ContextMenu'
 import Spotlight from './components/Spotlight'
+import BootScreen from './components/BootScreen'
+
+import { setBooting } from './store/features/boot/bootSlice'
+import { setBgIndex, incrementBgIndex } from './store/features/wallpaper/wallpaperSlice'
+import { toggleSpotlight, setSpotlightOpen } from './store/features/spotlight/spotlightSlice'
+import { setContextMenu, closeContextMenu } from './store/features/contextMenu/contextMenuSlice'
+import { openWindow, restoreWindow, focusWindow, toggleMinimize } from './store/features/windows/windowSlice'
 
 const wallpapers = [
   'mac-wallpaper.jpg',
@@ -22,119 +30,63 @@ const wallpapers = [
   'mac5.jpg',
 ]
 
-import BootScreen from './components/BootScreen'
-
 function App() {
-  const [booting, setBooting] = useState(true)
-  const [windowBox, setwindowBox] = useState({
-    github: false,
-    note: false,
-    resume: false,
-    spotify: false,
-    cli: false,
-    calculator: false
-  })
+  const dispatch = useDispatch()
 
-  // Minimized state
-  const [minimizedWindows, setMinimizedWindows] = useState({
-    github: false,
-    note: false,
-    resume: false,
-    spotify: false,
-    cli: false,
-    calculator: false
-  })
+  const booting = useSelector(state => state.boot.booting)
+  const bgIndex = useSelector(state => state.wallpaper.bgIndex)
+  const spotlightOpen = useSelector(state => state.spotlight.isOpen)
+  const contextMenu = useSelector(state => state.contextMenu)
 
-  // Track the order of focus for windows
-  const [focusedWindow, setFocusedWindow] = useState(null)
-  const [zIndices, setZIndices] = useState({
-    github: 1,
-    note: 1,
-    resume: 1,
-    spotify: 1,
-    cli: 1,
-    calculator: 1
-  })
-
-  const [bgIndex, setBgIndex] = useState(0)
-
-  // Function to bring a window to the front
-  const focusWindow = (name) => {
-    if (!name) return;
-    setFocusedWindow(name)
-    setZIndices(prev => {
-      const currentZ = prev[name] || 1;
-      const maxZ = Math.max(...Object.values(prev));
-      // Only update if it's not already on top or to ensure it becomes top
-      return { ...prev, [name]: maxZ + 1 }
-    })
-  }
+  const windowBox = useSelector(state => state.windows.windowBox)
+  const minimizedWindows = useSelector(state => state.windows.minimizedWindows)
+  const zIndices = useSelector(state => state.windows.zIndices)
 
 
-
-  const [spotlightOpen, setSpotlightOpen] = useState(false)
-
+  // Spotlight Shortcut
   useEffect(() => {
     const handleKeyDown = (e) => {
       if ((e.metaKey || e.ctrlKey) && e.key === 'k') {
         e.preventDefault()
-        setSpotlightOpen(prev => !prev)
+        dispatch(toggleSpotlight())
       }
     }
     window.addEventListener('keydown', handleKeyDown)
     return () => window.removeEventListener('keydown', handleKeyDown)
-  }, [])
+  }, [dispatch])
 
   const handleSpotlightLaunch = (appId) => {
-    // Check if the app exists in windowBox state
     if (windowBox.hasOwnProperty(appId)) {
-      if (minimizedWindows[appId]) {
-        restoreWindow(appId)
-      } else {
-        setwindowBox(prev => ({ ...prev, [appId]: true }))
-        focusWindow(appId)
-      }
+      dispatch(openWindow(appId));
     }
   }
 
-  const [contextMenu, setContextMenu] = useState({ visible: false, x: 0, y: 0 })
-
   const handleContextMenu = (e) => {
     e.preventDefault()
-    setContextMenu({
+    dispatch(setContextMenu({
       visible: true,
       x: e.clientX,
       y: e.clientY
-    })
+    }))
   }
 
   const contextActions = {
     newFolder: () => alert('New Folder created (Mock)'),
     getInfo: () => alert('macOS Desktop React\nVersion 1.0.0\nDeveloper: Ritam Maty'),
-    changeWallpaper: () => setBgIndex(prev => (prev + 1) % wallpapers.length)
+    changeWallpaper: () => dispatch(incrementBgIndex(wallpapers.length))
   }
 
-  const toggleMinimize = (name) => {
-    setMinimizedWindows(prev => ({ ...prev, [name]: !prev[name] }))
-  }
-
-  // Modified to restore if minimized
-  const restoreWindow = (name) => {
-    setMinimizedWindows(prev => ({ ...prev, [name]: false }))
-    focusWindow(name)
-  }
-
-  // Restore background rotation but maybe slower (10s)
+  // Background rotation
   useEffect(() => {
     const interval = setInterval(() => {
-      setBgIndex(prev => (prev + 1) % wallpapers.length)
+      dispatch(incrementBgIndex(wallpapers.length))
     }, 10000)
 
     return () => clearInterval(interval)
-  }, [])
+  }, [dispatch])
 
   if (booting) {
-    return <BootScreen onComplete={() => setBooting(false)} />
+    return <BootScreen onComplete={() => dispatch(setBooting(false))} />
   }
 
   return (
@@ -143,98 +95,32 @@ function App() {
         backgroundImage: `url("${wallpapers[bgIndex]}")`
       }}
       onContextMenu={handleContextMenu}
-      onClick={() => setContextMenu({ ...contextMenu, visible: false })}
+      onClick={() => dispatch(closeContextMenu())}
     >
       <ContextMenu
         {...contextMenu}
-        onClose={() => setContextMenu({ ...contextMenu, visible: false })}
+        onClose={() => dispatch(closeContextMenu())}
         actions={contextActions}
       />
       <Spotlight
         isOpen={spotlightOpen}
-        onClose={() => setSpotlightOpen(false)}
+        onClose={() => dispatch(setSpotlightOpen(false))}
         onLaunch={handleSpotlightLaunch}
       />
-      <Nav windowBox={windowBox} setwindowBox={setwindowBox} focusWindow={restoreWindow} />
-      <Dock
-        windowBox={windowBox}
-        setwindowBox={setwindowBox}
-        focusWindow={restoreWindow}
-        minimizedWindows={minimizedWindows}
-        toggleMinimize={toggleMinimize}
-      />
+
+      {/* Props removed via Redux */}
+      <Nav />
+      <Dock />
 
       {windowBox.github && (
-        <Github
-          windowname="github"
-          windowBox={windowBox}
-          setwindowBox={setwindowBox}
-          zIndex={zIndices.github}
-          onFocus={() => restoreWindow('github')}
-          minimized={minimizedWindows.github}
-          onMinimize={() => toggleMinimize('github')}
-        />
+        <Github windowname="github" />
       )}
 
-      {windowBox.note && (
-        <Note
-          windowname="note"
-          windowBox={windowBox}
-          setwindowBox={setwindowBox}
-          zIndex={zIndices.note}
-          onFocus={() => restoreWindow('note')}
-          minimized={minimizedWindows.note}
-          onMinimize={() => toggleMinimize('note')}
-        />
-      )}
-
-      {windowBox.resume && (
-        <Resume
-          windowname="resume"
-          windowBox={windowBox}
-          setwindowBox={setwindowBox}
-          zIndex={zIndices.resume}
-          onFocus={() => restoreWindow('resume')}
-          minimized={minimizedWindows.resume}
-          onMinimize={() => toggleMinimize('resume')}
-        />
-      )}
-
-      {windowBox.spotify && (
-        <Spotify
-          windowname="spotify"
-          windowBox={windowBox}
-          setwindowBox={setwindowBox}
-          zIndex={zIndices.spotify}
-          onFocus={() => restoreWindow('spotify')}
-          minimized={minimizedWindows.spotify}
-          onMinimize={() => toggleMinimize('spotify')}
-        />
-      )}
-
-      {windowBox.cli && (
-        <Cli
-          windowname="cli"
-          windowBox={windowBox}
-          setwindowBox={setwindowBox}
-          zIndex={zIndices.cli}
-          onFocus={() => restoreWindow('cli')}
-          minimized={minimizedWindows.cli}
-          onMinimize={() => toggleMinimize('cli')}
-        />
-      )}
-
-      {windowBox.calculator && (
-        <Calculator
-          windowname="calculator"
-          windowBox={windowBox}
-          setwindowBox={setwindowBox}
-          zIndex={zIndices.calculator}
-          onFocus={() => restoreWindow('calculator')}
-          minimized={minimizedWindows.calculator}
-          onMinimize={() => toggleMinimize('calculator')}
-        />
-      )}
+      {windowBox.note && <Note windowname="note" />}
+      {windowBox.resume && <Resume windowname="resume" />}
+      {windowBox.spotify && <Spotify windowname="spotify" />}
+      {windowBox.cli && <Cli windowname="cli" />}
+      {windowBox.calculator && <Calculator windowname="calculator" />}
 
       <div className="desktop-icons-container">
         <DesktopIcon
