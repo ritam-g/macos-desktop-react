@@ -1,58 +1,217 @@
-.note-window {
-    background: rgba(40, 39, 39, 0.977);
-    color: white;
+.notes-app-container {
+    display: flex;
     height: 100%;
+    background-color: #1e1e1e;
+    color: #e0e0e0;
+    overflow: hidden;
 
-    nav {
-        padding-inline: 0.8rem;
-        padding-block: 0.4rem;
+    .notes-sidebar {
+        width: 240px;
+        background-color: rgba(45, 45, 45, 0.8);
+        backdrop-filter: blur(10px);
+        border-right: 1px solid rgba(255, 255, 255, 0.1);
         display: flex;
-        align-items: center;
-        gap: 0.5rem;
-        border-bottom: 1px solid rgba(255, 255, 255, 0.137);
-        padding-bottom: 0.4rem;
+        flex-direction: column;
 
-        .title {
-            color: rgba(101, 93, 93, 0.572);
-        }
-
-        .dots {
+        .sidebar-header {
+            padding: 12px;
             display: flex;
-            gap: 0.6rem;
+            align-items: center;
+            gap: 8px;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
 
-            .dot {
-                height: 12px;
-                width: 12px;
-                background-color: pink;
-                border-radius: 50%;
+            .search-bar {
+                flex: 1;
+                display: flex;
+                align-items: center;
+                background-color: rgba(255, 255, 255, 0.1);
+                border-radius: 6px;
+                padding: 4px 8px;
+                gap: 6px;
+
+                .search-icon {
+                    color: rgba(255, 255, 255, 0.4);
+                }
+
+                input {
+                    background: none;
+                    border: none;
+                    color: white;
+                    font-size: 13px;
+                    width: 100%;
+                    outline: none;
+
+                    &::placeholder {
+                        color: rgba(255, 255, 255, 0.3);
+                    }
+                }
             }
 
-            .red {
-                background-color: #FF605C;
-            }
+            .add-note-btn {
+                background: none;
+                border: none;
+                color: #ff9f0a;
+                cursor: pointer;
+                display: flex;
+                padding: 4px;
+                border-radius: 4px;
+                transition: background 0.2s;
 
-            .yellow {
-                background-color: #FFBD44;
-            }
-
-            .green {
-                background-color: #00CA4E;
+                &:hover {
+                    background-color: rgba(255, 159, 10, 0.2);
+                }
             }
         }
 
+        .notes-list {
+            flex: 1;
+            overflow-y: auto;
+            padding: 4px;
 
+            &::-webkit-scrollbar {
+                width: 4px;
+            }
+
+            &::-webkit-scrollbar-thumb {
+                background: rgba(255, 255, 255, 0.1);
+                border-radius: 10px;
+            }
+
+            .note-item {
+                padding: 10px 12px;
+                border-radius: 6px;
+                cursor: pointer;
+                transition: background 0.2s;
+                margin-bottom: 2px;
+
+                &:hover {
+                    background-color: rgba(255, 255, 255, 0.05);
+                }
+
+                &.active {
+                    background-color: #ff9f0a;
+                    color: black;
+
+                    .note-item-meta {
+                        color: rgba(0, 0, 0, 0.6);
+                    }
+
+                    .note-item-header {
+                        svg {
+                            color: black;
+                        }
+                    }
+                }
+
+                .note-item-header {
+                    display: flex;
+                    align-items: center;
+                    gap: 8px;
+                    margin-bottom: 4px;
+
+                    svg {
+                        color: #ff9f0a;
+                        flex-shrink: 0;
+                    }
+
+                    .note-title {
+                        font-weight: 500;
+                        font-size: 13px;
+                        white-space: nowrap;
+                        overflow: hidden;
+                        text-overflow: ellipsis;
+                    }
+                }
+
+                .note-item-meta {
+                    font-size: 11px;
+                    color: rgba(255, 255, 255, 0.4);
+                    padding-left: 24px;
+                }
+            }
+        }
     }
 
-    .main-content {
-        height: 100%;
-        overflow-x: hidden;
+    .notes-editor {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        background-color: #1e1e1e;
 
-    }
+        .editor-header {
+            padding: 8px 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
 
-    pre {
-        max-width: 100%;
-        overflow-x: hidden;
-        white-space: pre-wrap;
-        word-break: break-word;
+            .timestamp {
+                font-size: 11px;
+                color: rgba(255, 255, 255, 0.4);
+                text-transform: uppercase;
+                letter-spacing: 0.5px;
+            }
+
+            .delete-note-btn {
+                background: none;
+                border: none;
+                color: rgba(255, 255, 255, 0.3);
+                cursor: pointer;
+                padding: 4px;
+                border-radius: 4px;
+                transition: all 0.2s;
+
+                &:hover {
+                    color: #ff453a;
+                    background-color: rgba(255, 69, 58, 0.1);
+                }
+            }
+        }
+
+        .note-area {
+            flex: 1;
+            background: none;
+            border: none;
+            color: #d1d1d1;
+            padding: 20px;
+            font-size: 15px;
+            line-height: 1.6;
+            resize: none;
+            outline: none;
+            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+
+            &::placeholder {
+                color: rgba(255, 255, 255, 0.2);
+            }
+        }
+
+        .no-active-note {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 16px;
+            color: rgba(255, 255, 255, 0.3);
+
+            p {
+                font-size: 14px;
+            }
+
+            button {
+                background-color: #ff9f0a;
+                border: none;
+                color: black;
+                padding: 8px 16px;
+                border-radius: 6px;
+                font-weight: 500;
+                cursor: pointer;
+                transition: opacity 0.2s;
+
+                &:hover {
+                    opacity: 0.9;
+                }
+            }
+        }
     }
 }
