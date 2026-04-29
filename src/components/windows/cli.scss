@@ -1,3 +1,10 @@
 .cli-sction{
     overflow: hidden;
 }
+
+@media (max-width: 768px) {
+    .cli-sction {
+        height: 100%;
+        font-size: 12px;
+    }
+}

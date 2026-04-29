@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useRef } from 'react'
 import './app.scss'
 import { useSelector, useDispatch } from 'react-redux'
 
@@ -16,10 +16,11 @@ import Spotlight from './components/Spotlight'
 import BootScreen from './components/BootScreen'
 
 import { setBooting } from './store/features/boot/bootSlice'
-import { setBgIndex, incrementBgIndex } from './store/features/wallpaper/wallpaperSlice'
+import { incrementBgIndex } from './store/features/wallpaper/wallpaperSlice'
 import { toggleSpotlight, setSpotlightOpen } from './store/features/spotlight/spotlightSlice'
 import { setContextMenu, closeContextMenu } from './store/features/contextMenu/contextMenuSlice'
-import { openWindow, restoreWindow, focusWindow, toggleMinimize } from './store/features/windows/windowSlice'
+import { openWindow } from './store/features/windows/windowSlice'
+import { setViewportState } from './store/features/responsive/responsiveSlice'
 
 const wallpapers = [
   'mac-wallpaper.jpg',
@@ -32,15 +33,18 @@ const wallpapers = [
 
 function App() {
   const dispatch = useDispatch()
+  const longPressTimerRef = useRef(null)
+  const suppressNextClickRef = useRef(false)
 
   const booting = useSelector(state => state.boot.booting)
   const bgIndex = useSelector(state => state.wallpaper.bgIndex)
   const spotlightOpen = useSelector(state => state.spotlight.isOpen)
   const contextMenu = useSelector(state => state.contextMenu)
+  const isMobile = useSelector(state => state.responsive.isMobile)
+  const viewportWidth = useSelector(state => state.responsive.viewportWidth)
+  const viewportHeight = useSelector(state => state.responsive.viewportHeight)
 
   const windowBox = useSelector(state => state.windows.windowBox)
-  const minimizedWindows = useSelector(state => state.windows.minimizedWindows)
-  const zIndices = useSelector(state => state.windows.zIndices)
 
 
   // Spotlight Shortcut
@@ -55,8 +59,38 @@ function App() {
     return () => window.removeEventListener('keydown', handleKeyDown)
   }, [dispatch])
 
+  useEffect(() => () => {
+    if (longPressTimerRef.current) {
+      window.clearTimeout(longPressTimerRef.current)
+    }
+  }, [])
+
+  // MOBILE ADAPTATION START
+  useEffect(() => {
+    const updateViewport = () => {
+      const width = window.innerWidth
+      const height = window.innerHeight
+
+      dispatch(setViewportState({
+        isMobile: width < 768,
+        viewportWidth: width,
+        viewportHeight: height,
+      }))
+    }
+
+    updateViewport()
+    window.addEventListener('resize', updateViewport)
+    window.addEventListener('orientationchange', updateViewport)
+
+    return () => {
+      window.removeEventListener('resize', updateViewport)
+      window.removeEventListener('orientationchange', updateViewport)
+    }
+  }, [dispatch])
+  // MOBILE ADAPTATION END
+
   const handleSpotlightLaunch = (appId) => {
-    if (windowBox.hasOwnProperty(appId)) {
+    if (Object.prototype.hasOwnProperty.call(windowBox, appId)) {
       dispatch(openWindow(appId));
     }
   }
@@ -73,7 +107,7 @@ function App() {
   const contextActions = {
     newFolder: () => alert('New Folder created (Mock)'),
     getInfo: () => alert('macOS Desktop React\nVersion 1.0.0\nDeveloper: Ritam Maty'),
-    changeWallpaper: () => dispatch(incrementBgIndex(wallpapers.length))
+    changeWallpaper: () => dispatch(incrementBgIndex(wallpapers.length)),
   }
 
   // Background rotation
@@ -89,13 +123,52 @@ function App() {
     return <BootScreen onComplete={() => dispatch(setBooting(false))} />
   }
 
+  const handleTouchStart = (e) => {
+    if (!isMobile) return
+
+    const touch = e.touches?.[0]
+    if (!touch) return
+
+    if (touch.target?.closest?.('.window, .Dock, .Nav, .spotlight-container, .context-menu, .desktop-icon')) {
+      return
+    }
+
+    longPressTimerRef.current = window.setTimeout(() => {
+      suppressNextClickRef.current = true
+      dispatch(setContextMenu({
+        visible: true,
+        x: Math.min(touch.clientX, Math.max(16, viewportWidth - 220)),
+        y: Math.min(touch.clientY, Math.max(16, viewportHeight - 220)),
+      }))
+    }, 500)
+  }
+
+  const clearLongPress = () => {
+    if (longPressTimerRef.current) {
+      window.clearTimeout(longPressTimerRef.current)
+      longPressTimerRef.current = null
+    }
+  }
+
   return (
     <main
+      className={isMobile ? 'mobile-mode' : ''}
       style={{
         backgroundImage: `url("${wallpapers[bgIndex]}")`
       }}
       onContextMenu={handleContextMenu}
-      onClick={() => dispatch(closeContextMenu())}
+      onClick={() => {
+        if (suppressNextClickRef.current) {
+          suppressNextClickRef.current = false
+          return
+        }
+
+        dispatch(closeContextMenu())
+      }}
+      onTouchStart={handleTouchStart}
+      onTouchMove={clearLongPress}
+      onTouchEnd={clearLongPress}
+      onTouchCancel={clearLongPress}
     >
       <ContextMenu
         {...contextMenu}

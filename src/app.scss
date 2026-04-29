@@ -14,6 +14,7 @@ body,
 body {
   background-color: black;
   overflow: hidden;
+  overscroll-behavior: none;
 }
 
 main {
@@ -24,8 +25,23 @@ main {
   background-position: center;
   background-size: cover;
   background-repeat: no-repeat;
+  touch-action: manipulation;
 
   transition: background-image 0.8s ease-in-out;
+}
+
+.mobile-mode {
+  overflow: hidden;
+
+  .desktop-icons-container {
+    top: 56px;
+    right: auto;
+    left: 12px;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 12px;
+    max-width: calc(100vw - 24px);
+  }
 }
 
 /* Global Thin Scrollbar */
@@ -50,4 +66,20 @@ main {
 * {
   scrollbar-width: thin;
   scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
+}
+
+@media (max-width: 768px) {
+  main {
+    background-position: center center;
+  }
+
+  .desktop-icons-container {
+    top: 56px;
+    right: auto;
+    left: 12px;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 12px;
+    max-width: calc(100vw - 24px);
+  }
 }

@@ -42,7 +42,7 @@ const windowSlice = createSlice({
         },
         openWindow: (state, action) => {
             const windowName = action.payload;
-            if (state.windowBox.hasOwnProperty(windowName)) {
+            if (Object.prototype.hasOwnProperty.call(state.windowBox, windowName)) {
                 state.windowBox[windowName] = true;
                 state.minimizedWindows[windowName] = false;
 
@@ -54,19 +54,19 @@ const windowSlice = createSlice({
         },
         closeWindow: (state, action) => {
             const windowName = action.payload;
-            if (state.windowBox.hasOwnProperty(windowName)) {
+            if (Object.prototype.hasOwnProperty.call(state.windowBox, windowName)) {
                 state.windowBox[windowName] = false;
             }
         },
         toggleMinimize: (state, action) => {
             const windowName = action.payload;
-            if (state.minimizedWindows.hasOwnProperty(windowName)) {
+            if (Object.prototype.hasOwnProperty.call(state.minimizedWindows, windowName)) {
                 state.minimizedWindows[windowName] = !state.minimizedWindows[windowName];
             }
         },
         restoreWindow: (state, action) => {
             const windowName = action.payload;
-            if (state.minimizedWindows.hasOwnProperty(windowName)) {
+            if (Object.prototype.hasOwnProperty.call(state.minimizedWindows, windowName)) {
                 state.minimizedWindows[windowName] = false;
                 // Focus logic copied
                 state.focusedWindow = windowName;

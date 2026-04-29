@@ -4,6 +4,7 @@ import wallpaperReducer from './features/wallpaper/wallpaperSlice';
 import spotlightReducer from './features/spotlight/spotlightSlice';
 import contextMenuReducer from './features/contextMenu/contextMenuSlice';
 import windowReducer from './features/windows/windowSlice';
+import responsiveReducer from './features/responsive/responsiveSlice';
 
 const store = configureStore({
     reducer: {
@@ -12,6 +13,7 @@ const store = configureStore({
         spotlight: spotlightReducer,
         contextMenu: contextMenuReducer,
         windows: windowReducer,
+        responsive: responsiveReducer,
     },
 });
 

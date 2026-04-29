@@ -17,6 +17,37 @@
         gap: 1rem;
         align-items: center;
         cursor: pointer;
+        min-height: 40px;
+    }
+
+    .nav-item,
+    .apple-icon {
+        min-height: 40px;
+        min-width: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        touch-action: manipulation;
     }
     
+}
+
+@media (max-width: 768px) {
+    .Nav {
+        padding-inline: 0.65rem;
+        padding-block: 0.4rem;
+
+        .left, .right {
+            gap: 0.5rem;
+        }
+
+        .nav-item {
+            font-size: 0.85rem;
+        }
+
+        .right .nav-item svg,
+        .right .nav-item img {
+            transform: scale(0.95);
+        }
+    }
 }

@@ -9,6 +9,7 @@
     border-radius: 1rem;
     backdrop-filter: blur(10px);
     box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    touch-action: manipulation;
     .icon{
         padding: 0.5rem;
         display: flex;
@@ -64,4 +65,44 @@
         transform: scale(1.1) translateY(-10%);
     }
     
+}
+
+@media (max-width: 768px) {
+  .Dock {
+    gap: 0.35rem;
+    bottom: 0.85rem;
+    padding: 0.35rem;
+    border-radius: 1.15rem;
+    max-width: calc(100vw - 1rem);
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+
+    .icon {
+      padding: 0.4rem;
+      min-width: 3rem;
+      min-height: 3rem;
+      transition: transform 0.15s ease, opacity 0.15s ease;
+    }
+
+    .github, .note, .pdf, .calender, .spotify, .mail, .link, .cli {
+      img {
+        width: 2.85rem;
+        height: 2.85rem;
+      }
+    }
+
+    .calculator svg {
+      width: 2.85rem;
+      height: 2.85rem;
+    }
+
+    .icon:hover {
+      transform: none;
+    }
+
+    .icon:hover + .icon,
+    .icon:has(+ .icon:hover) {
+      transform: none;
+    }
+  }
 }

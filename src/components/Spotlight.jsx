@@ -1,6 +1,7 @@
 
 import React, { useState, useEffect, useRef } from 'react'
 import './Spotlight.scss'
+import { useSelector } from 'react-redux'
 
 const apps = [
     { id: 'note', name: 'Notes', type: 'app', icon: 'doc-icons/note.svg' },
@@ -19,16 +20,30 @@ function Spotlight({ isOpen, onClose, onLaunch }) {
     const [query, setQuery] = useState('')
     const [selectedIndex, setSelectedIndex] = useState(0)
     const inputRef = useRef(null)
+    const isMobile = useSelector(state => state.responsive.isMobile)
 
     const filteredApps = apps.filter(app =>
         app.name.toLowerCase().includes(query.toLowerCase())
     )
 
+    const handleLaunch = (app) => {
+        if (app.type === 'link') {
+            window.open(app.url, '_blank')
+        } else {
+            onLaunch(app.id)
+        }
+        onClose()
+    }
+
     useEffect(() => {
         if (isOpen) {
-            setQuery('')
-            setSelectedIndex(0)
-            setTimeout(() => inputRef.current?.focus(), 10)
+            const frame = window.requestAnimationFrame(() => {
+                setQuery('')
+                setSelectedIndex(0)
+                inputRef.current?.focus()
+            })
+
+            return () => window.cancelAnimationFrame(frame)
         }
     }, [isOpen])
 
@@ -42,10 +57,16 @@ function Spotlight({ isOpen, onClose, onLaunch }) {
             } else if (e.key === 'ArrowUp') {
                 e.preventDefault()
                 setSelectedIndex(prev => Math.max(prev - 1, 0))
-            } else if (e.key === 'Enter') {
+        } else if (e.key === 'Enter') {
                 e.preventDefault()
-                if (filteredApps[selectedIndex]) {
-                    handleLaunch(filteredApps[selectedIndex])
+                const activeApp = filteredApps[selectedIndex]
+                if (activeApp) {
+                    if (activeApp.type === 'link') {
+                        window.open(activeApp.url, '_blank')
+                    } else {
+                        onLaunch(activeApp.id)
+                    }
+                    onClose()
                 }
             } else if (e.key === 'Escape') {
                 onClose()
@@ -54,21 +75,24 @@ function Spotlight({ isOpen, onClose, onLaunch }) {
 
         window.addEventListener('keydown', handleKeyDown)
         return () => window.removeEventListener('keydown', handleKeyDown)
-    }, [isOpen, filteredApps, selectedIndex])
-
-    const handleLaunch = (app) => {
-        if (app.type === 'link') {
-            window.open(app.url, '_blank')
-        } else {
-            onLaunch(app.id)
-        }
-        onClose()
-    }
+    }, [isOpen, filteredApps, selectedIndex, onLaunch, onClose])
 
     if (!isOpen) return null
 
     return (
-        <div className="spotlight-overlay" onClick={onClose}>
+        <div
+            className="spotlight-overlay"
+            onClick={(event) => {
+                if (event.target === event.currentTarget) {
+                    onClose()
+                }
+            }}
+            onTouchEnd={(event) => {
+                if (event.target === event.currentTarget) {
+                    onClose()
+                }
+            }}
+        >
             <div className="spotlight-container" onClick={e => e.stopPropagation()}>
                 <div className="search-bar">
                     <svg className="search-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -92,7 +116,11 @@ function Spotlight({ isOpen, onClose, onLaunch }) {
                                 key={app.id}
                                 className={`result-item ${index === selectedIndex ? 'selected' : ''}`}
                                 onClick={() => handleLaunch(app)}
-                                onMouseEnter={() => setSelectedIndex(index)}
+                                onTouchEnd={(event) => {
+                                    event.preventDefault()
+                                    handleLaunch(app)
+                                }}
+                                onMouseEnter={() => !isMobile && setSelectedIndex(index)}
                             >
                                 <div className="app-icon">
                                     {/* Handle icons that might be missing or SVG paths */}

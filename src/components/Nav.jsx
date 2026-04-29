@@ -2,7 +2,8 @@ import React from 'react'
 import "./Nav.scss"
 import DateTime from './DateTime'
 import { useSelector, useDispatch } from 'react-redux'
-import { openWindow, closeWindow, focusWindow, setWindowBox } from '../store/features/windows/windowSlice'
+import { openWindow, closeWindow, setWindowBox } from '../store/features/windows/windowSlice'
+import useTapAction from '../hooks/useTapAction'
 
 function Nav() {
     const dispatch = useDispatch()
@@ -26,30 +27,33 @@ function Nav() {
         }))
     };
 
+    const appleTap = useTapAction(closeAll)
+    const ritamTap = useTapAction(() => toggleApp('github'))
+    const fileTap = useTapAction(() => toggleApp('resume'))
+    const terminalTap = useTapAction(() => toggleApp('cli'))
+
     return (
         <nav className='Nav' aria-label="Main Navigation Bar">
             <div className="left ">
                 <div
-                    onClick={closeAll}
                     className="apple-icon"
                     role="button"
                     aria-label="Apple Menu - Click to close all windows"
+                    {...appleTap}
                 >
                     <img src="navbar-icons/apple.svg" alt="Apple Menu" />
                 </div>
                 <div
-                    onClick={() => toggleApp('github')}
                     className="nav-item"
                     role="button"
                     aria-label="Developer Name"
+                    {...ritamTap}
                 >
                     <p>Ritam Maty</p>
                 </div>
 
-                <div className="nav-item" role="button" aria-label="File Menu">
-                    <p
-                        onClick={() => toggleApp('resume')}
-                    >File</p>
+                <div className="nav-item" role="button" aria-label="File Menu" {...fileTap}>
+                    <p>File</p>
                 </div>
 
                 <div className="nav-item" role="button" aria-label="Window Menu">
@@ -57,10 +61,8 @@ function Nav() {
 
                     >window</p>
                 </div>
-                <div className="nav-item" role="button" aria-label="Terminal Menu">
-                    <p
-                        onClick={() => toggleApp('cli')}
-                    >terminal</p>
+                <div className="nav-item" role="button" aria-label="Terminal Menu" {...terminalTap}>
+                    <p>terminal</p>
                 </div>
 
             </div>

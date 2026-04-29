@@ -10,6 +10,7 @@
     justify-content: center;
     padding-top: 20vh;
     font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    touch-action: manipulation;
 }
 
 .spotlight-container {
@@ -93,6 +94,34 @@
                     height: 100%;
                     object-fit: contain;
                 }
+            }
+        }
+    }
+}
+
+@media (max-width: 768px) {
+    .spotlight-overlay {
+        padding-top: 14vh;
+    }
+
+    .spotlight-container {
+        width: calc(100vw - 24px);
+
+        .search-bar {
+            padding: 14px 16px;
+
+            input {
+                font-size: 18px;
+            }
+        }
+
+        .results-list {
+            max-height: 52vh;
+
+            .result-item {
+                min-height: 48px;
+                padding: 12px 14px;
+                font-size: 16px;
             }
         }
     }

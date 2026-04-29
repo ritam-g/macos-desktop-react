@@ -8,6 +8,7 @@
     border-radius: 4px;
     transition: background 0.2s;
     user-select: none;
+    touch-action: manipulation;
 
     &:hover {
         background: rgba(255, 255, 255, 0.1);
@@ -52,4 +53,31 @@
     display: flex;
     flex-direction: column;
     gap: 20px;
+}
+
+@media (max-width: 768px) {
+    .desktop-icon {
+        width: 72px;
+        padding: 10px 6px;
+
+        .icon-wrapper {
+            width: 56px;
+            height: 56px;
+        }
+
+        .icon-name {
+            font-size: 0.72rem;
+            padding: 3px 8px;
+        }
+    }
+
+    .desktop-icons-container {
+        top: 56px;
+        left: 12px;
+        right: auto;
+        flex-direction: row;
+        gap: 12px;
+        max-width: calc(100vw - 24px);
+        flex-wrap: wrap;
+    }
 }

@@ -25,6 +25,7 @@
       transform 0.35s cubic-bezier(0.4, 0, 0.2, 1),
       box-shadow 0.35s ease,
       border 0.35s ease;
+    touch-action: manipulation;
 
     &:hover {
       transform: translateY(-6px) scale(1.015);
@@ -163,5 +164,28 @@
   }
   to {
     opacity: 1;
+  }
+}
+
+@media (max-width: 768px) {
+  .cards {
+    padding: 12px;
+    gap: 12px;
+    flex-direction: column;
+    flex-wrap: nowrap;
+
+    .card {
+      width: 100%;
+      max-width: none;
+
+      img {
+        height: 160px;
+      }
+
+      .urls {
+        gap: 12px;
+        flex-wrap: wrap;
+      }
+    }
   }
 }

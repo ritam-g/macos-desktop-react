@@ -1,13 +1,13 @@
 import React from 'react'
 import "./Dock.scss"
 import { useSelector, useDispatch } from 'react-redux'
-import { openWindow, focusWindow, toggleMinimize, restoreWindow } from '../store/features/windows/windowSlice'
+import { openWindow, toggleMinimize, restoreWindow } from '../store/features/windows/windowSlice'
+import useTapAction from '../hooks/useTapAction'
 
 function Dock() {
   const dispatch = useDispatch()
   const windowBox = useSelector(state => state.windows.windowBox)
   const minimizedWindows = useSelector(state => state.windows.minimizedWindows)
-
 
   const openApp = (name) => {
     if (windowBox[name]) {
@@ -25,82 +25,88 @@ function Dock() {
     }
   };
 
+  const githubTap = useTapAction(() => openApp('github'))
+  const noteTap = useTapAction(() => openApp('note'))
+  const resumeTap = useTapAction(() => openApp('resume'))
+  const calendarTap = useTapAction(() => window.open("https://calendar.google.com/", "_blank"))
+  const spotifyTap = useTapAction(() => openApp('spotify'))
+  const mailTap = useTapAction(() => window.open("mailto:ritammaty@gmail.com", "_blank"))
+  const linkedInTap = useTapAction(() => window.open("https://www.linkedin.com/in/ritammaty/", "_blank"))
+  const cliTap = useTapAction(() => openApp('cli'))
+  const calculatorTap = useTapAction(() => openApp('calculator'))
+
   return (
 
     <footer className='Dock' aria-label="Application Dock">
       <div
-        onClick={() => openApp('github')}
         className={`icon github ${windowBox.github ? 'active' : ''}`}
         role="button"
         aria-label="Open GitHub Projects"
+        {...githubTap}
       >
         <img src="doc-icons/github.svg" alt="GitHub" />
       </div>
       <div
-        onClick={() => openApp('note')}
         className={`icon note ${windowBox.note ? 'active' : ''}`}
         role="button"
         aria-label="Open Notes App"
+        {...noteTap}
       >
         <img src="doc-icons/note.svg" alt="Notes" />
       </div>
       <div
-        onClick={() => openApp('resume')}
         className={`icon pdf ${windowBox.resume ? 'active' : ''}`}
         role="button"
         aria-label="Open Resume"
+        {...resumeTap}
       >
         <img src="doc-icons/pdf.svg" alt="Resume" />
       </div>
       <div
-        onClick={() => { window.open("https://calendar.google.com/", "_blank") }}
         className="icon calender"
         role="button"
         aria-label="Open Google Calendar"
+        {...calendarTap}
       >
         <img src="doc-icons/calender.svg" alt="Calendar" />
       </div>
       <div
-        onClick={() => openApp('spotify')}
         className={`icon spotify ${windowBox.spotify ? 'active' : ''}`}
         role="button"
         aria-label="Open Spotify"
+        {...spotifyTap}
       >
         <img src="doc-icons/spotify.svg" alt="Spotify" />
       </div>
       <div
-        onClick={() => {
-          window.open("mailto:ritammaty@gmail.com", "_blank")
-        }}
         className="icon mail"
         role="button"
         aria-label="Send Email"
+        {...mailTap}
       >
         <img src="doc-icons/mail.svg" alt="Mail" />
       </div>
       <div
-        onClick={() => {
-          window.open("https://www.linkedin.com/in/ritammaty/", "_blank")
-        }}
         className="icon link"
         role="button"
         aria-label="View LinkedIn Profile"
+        {...linkedInTap}
       >
         <img src="doc-icons/link.svg" alt="LinkedIn" />
       </div>
       <div
-        onClick={() => openApp('cli')}
         className={`icon cli ${windowBox.cli ? 'active' : ''}`}
         role="button"
         aria-label="Open Terminal"
+        {...cliTap}
       >
         <img src="doc-icons/cli.svg" alt="Terminal" />
       </div>
       <div
-        onClick={() => openApp('calculator')}
         className={`icon calculator ${windowBox.calculator ? 'active' : ''}`}
         role="button"
         aria-label="Open Calculator"
+        {...calculatorTap}
       >
         <svg viewBox="0 0 24 24" width="40" height="40" fill="none" xmlns="http://www.w3.org/2000/svg">
           <title>Calculator Icon</title>

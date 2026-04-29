@@ -1,6 +1,5 @@
 .context-menu {
     position: fixed;
-    width: 180px;
     background: rgba(40, 40, 40, 0.7);
     backdrop-filter: blur(25px) saturate(180%);
     border: 0.5px solid rgba(255, 255, 255, 0.2);
@@ -9,13 +8,15 @@
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
     z-index: 10000;
     user-select: none;
+    touch-action: manipulation;
     animation: fadeIn 0.15s ease-out;
 
     .menu-item {
         display: flex;
         justify-content: space-between;
         align-items: center;
-        padding: 5px 12px;
+        min-height: 44px;
+        padding: 10px 12px;
         color: white;
         font-size: 0.85rem;
         border-radius: 4px;
@@ -38,6 +39,16 @@
         height: 0.5px;
         background: rgba(255, 255, 255, 0.15);
         margin: 4px 5px;
+    }
+}
+
+@media (max-width: 768px) {
+    .context-menu {
+        max-width: calc(100vw - 24px);
+
+        .menu-item {
+            font-size: 0.95rem;
+        }
     }
 }
 
